@@ -1,0 +1,287 @@
+% Contents\
+\begin{abstract}
+    Some abstract
+\end{abstract}
+
+
+\section{Exercise 1}\FloatBarrier
+
+In this exercise, and for each of the three signals in study, I decided to test
+three different filter orders (\(n\)), with three different adaptation steps
+(\(\mu\)). These are:
+\begin{equation}
+    \begin{aligned}
+        n   & = {3, 5, 10}      \\
+        \mu & = {0.3, 0.5, 0.9}
+    \end{aligned}
+\end{equation}
+
+The experiment is done by script {\tt experiment1.m} and supported by the function
+    {\tt do\_nlms.m}. Furthermore, plotting is handled by the Python script {\tt
+        makeplots\_1.py}.
+
+There is a lot to unpack here, so let's get started. The first signal a sequence
+of random numbers that is filtered and to which is added some white noise
+component. The filter is given by:
+\begin{equation}
+    F(Z) = \frac{Z+2Z^{-1}}{Z+0.5Z^{-1}}
+\end{equation}
+This filter has one pole and one zero. Figure~\ref{fig:ex1varystep} shows how the
+adaptation evolves in regarding to the adaptation step. Keep in mind that, as
+asked, the adaptation step goes down by a factor of 10 in the middle of the
+adaptation.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l1_n5_mu90.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l1_n5_mu60.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l1_n5_mu30.pdf}
+        \caption{}
+    \end{subfigure}
+    \caption{Results for the first signal of exercise 1: varying adaptation
+        step.\label{fig:ex1varystep}}
+\end{figure}
+We see nothing too extraordinary: with smaller adaptation steps, the error is
+smaller. This is the intuitive results, however, one must note that this might not
+always be the case: a slow adaptation step can cause problems on dynamic systems,
+as the adaptive filter might not adapt fast enough. Also, with smaller adaptation
+steps, the level of error (which is equivalent to a noise floor of the system) is
+not only lower but less jittery. We can think of this optimization problem as
+looking for solutions in a convex space: smaller adaptation steps correspond to a
+smaller oscillation in the bottom of the concave surface. We see that with a
+filter order of 3 the noise floor is between \SI{-24}{\decibel} to
+\SI{-26}{\decibel}. Of course that the next step is to compare this floor in
+regard to the filter order. Figure~\ref{fig:ex1varyorder} shows this.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l1_n3_mu60.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l1_n5_mu60.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l1_n10_mu60.pdf}
+        \caption{}
+    \end{subfigure}
+    \caption{Results for the first signal of exercise 1: varying filter
+        order.\label{fig:ex1varyorder}}
+\end{figure}
+We see that for the same adaptation step, increasing the filter order decreases
+both the error of the adaptation and the fluctuations of the weights of the
+filter.
+
+With the second signal, things get more interesting. In
+figure~\ref{fig:ex1sig2switch}, we can see an interesting effect: in the first
+sinusoidal section, the weight marked in blue has a larger value than the one in
+orange, situation that inverts in the second case. Since a sinusoidal is fully
+described by amplitude and phase, the system is overdetermined. The converge to
+specific set of weights is not deterministic. We observe the adaptation step is
+the most relevant factor in the sinusoidal regions and that the number of weights
+becomes more important in the other regions.
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l2_n3_mu90.pdf}
+        \caption{\label{fig:ex1sig2switch}}
+    \end{subfigure} % \hspace{1cm}
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l2_n3_mu60.pdf}
+        \caption{}
+    \end{subfigure} \\
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l2_n5_mu90.pdf}
+        \caption{}
+    \end{subfigure} % \hspace{1cm}
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l2_n5_mu60.pdf}
+        \caption{}
+    \end{subfigure}
+    \caption{Results for the second signal of exercise 1.\label{fig:ex1sig2}}
+\end{figure}
+
+The last signal is probably the most interesting one to analyse.
+Figure~\ref{fig:ex1vsig3} depicts the results for this exercise.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n3_mu90.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n3_mu60.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n3_mu30.pdf}
+        \caption{}
+    \end{subfigure} \\
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n5_mu90.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n5_mu60.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n5_mu30.pdf}
+        \caption{}
+    \end{subfigure} \\
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n10_mu90.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n10_mu60.pdf}
+        \caption{}
+    \end{subfigure} \hfill
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex1_l3_n10_mu30.pdf}
+        \caption{\label{fig:ex1vsig3n10mu3}}
+    \end{subfigure}
+    \caption{Results for the third signal of exercise . The black dashed lines on
+        the second subplot in each figure corresponds to the theoretical weights.
+        \label{fig:ex1vsig3}}
+\end{figure}
+The way the figures are displayed, vertically we can see the effect of changing
+the number of weights and horizontally the effect of improving the adaptation
+step. We can see that for the coarser adaptation step, there is a lot of jittering
+in the weights every time there is an abrupt change in the weights. In a way, we
+can say the weights lost ``synchronization'' with the system and it needs to
+recover. The behaviour is similar to a weakly damped oscillation after an impulse
+impulse, hinting about the stability of the algorithm. On the other hand, on the
+finer adaptation steps, two effects become clearly visible. One is that the
+adaptation clearly starts to lag behind the ideal weights. The second, especially
+visible in the weight that varies as a square wave, is that there is a clear
+low-pass filter effect. This can get really extreme. I'd like to point out the
+particular case of the figure~\label{fig:ex1vsig3n10mu3} for \(n=10\) and
+\(\mu=0.3\) where we can see that in the first part the error is actually lower
+than in the second part, where \(\mu=0.03\). The effect of an adaptation that is
+too slow becomes clearly visible with the decrease in performance.
+
+\FloatBarrier
+\section{Exercise 2}
+
+In exercise 2, we are to consider three signals:
+\begin{align}
+    x_1 (t) & = v(t) + 3v(t-1) + 3v(t-2)  \\
+    x_2 (t) & = 3v(t) + 3v(t-1) + 1v(t-2) \\
+    d(t)    & = v(t) - 2v(t-1) + v(t-2)
+\end{align}
+where \(v(t)\) is a Gaussian white noise stochastic process with zero mean and
+unit variance.
+
+In the first part of the exercise, we are asked to compute the autocorrelation of
+each \(x_i\) signal and the cross-correlation between \(x_i\) and \(d\) for each
+\(i\). I will present the process for one of them, since the other ones are
+analogous. I'll do the autocorrelation of \(x_1\), denoted \(r_{x_1x_1}(k)\):
+\begin{equation}
+    r_{x_1x_1}(k) = \left< x_1 (t+k), x_1(t) \right>
+\end{equation}
+The first step is to expand \(x_1\):
+\begin{equation}
+    r_{x_1x_1}(k) = \left< v(t+k) + 3v(t-1+k) + 3v(t-2+k),
+    v(t) + 3v(t-1) + 3v(t-2) \right>
+\end{equation}
+The inner product operation has the distributive property, so this is equivalent
+to:
+\begin{equation}
+    \begin{aligned}
+        r_{x_1x_1}(k) & = \left< v(t+k), v(t) \right>        \\
+                      & + \left< v(t+k), 3v(t-1) \right>     \\
+                      & + \left< v(t+k),  3v(t-2) \right>    \\
+                      & + \left< 3v(t-1+k), v(t) \right>     \\
+                      & + \left< 3v(t-1+k), 3v(t-1) \right>  \\
+                      & +\left< 3v(t-1+k),  3v(t-2) \right>  \\
+                      & + \left< 3v(t-2+k), v(t) \right>     \\
+                      & + \left< 3v(t-2+k), 3v(t-1) \right>  \\
+                      & + \left< 3v(t-2+k),  3v(t-2) \right> \\
+    \end{aligned}
+\end{equation}
+Now we should pay close attention to this expression. Since \(v(t)\) is a Gaussian
+stochastic process:
+\begin{equation}
+    \left<v(t-k),v(t-n)\right>=\begin{cases}
+        1 & \text{if~} k=n   \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation}
+Which massively simplifies the problem. For example, for \(k=-1\), only the second
+and sixth parcels contribute to the result. And on these, it's just a matter of
+multiplying the weights of the parcels together and then sum them.
+
+We are also asked to confirm the results with simulation data. For that, I created
+the MATLAB script {\tt experiment21.m}. It uses MATLAB's filter function to apply
+the \(k\)-th delay to the signal. Since it's not possible to do such filter for
+positive \(k\), what I do is delay the other signal instead.
+Table~\ref{tab:results21} shows both the analytical and simulated results, as well
+as the relative error for the simulated data.
+
+\begin{table}
+    \adjustbox{width=\columnwidth,keepaspectratio}{
+        \input{table_ex21.tex}
+    }
+    \caption{Results for the first part of exercise 2. \(n_1=1000000\)
+        and \(n_2=ns = 100000000\)\label{tab:results21}}
+\end{table}
+
+The second part of the exercise asks us to solve the system of normal equations
+for various number of weights and to plot the error as function of this. Results
+for this can be seen in figures~\ref{fig:ex22x1} and~\ref{fig:ex22x2}.
+\begin{figure}
+    \centering
+    \begin{minipage}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex2_pt2_x1_all.pdf}
+        \caption{Results for the second part of ex. 2 for \(x_1(t)\)
+            \label{fig:ex22x1}}
+    \end{minipage}
+    \hspace{1cm}
+    \begin{minipage}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{figures/pdf/ex2_pt2_x2_all.pdf}
+        \caption{Results for the second part of ex. 2 for \(x_2(t)\)
+            \label{fig:ex22x2}}
+    \end{minipage}
+\end{figure}
+We see immediately that for the \(x_1\) the error never leaves the
+\SI{7}{\decibel} range, regardless of the filter order. On the other hand, for
+\(x_2\) we see a clear convergence to around \SI{-150}{\decibel}, coherent with
+limitations of floating point arithmetic.
+% To understand why, let's look at the characteristics of \(x_1\) and \(x_2\). We
+% can say \(x_1(t)\) is obtained from \(v(t)\) by a filter of the form \(Z +
+% 3Z^{-1} + 3Z^{-2}\) and \(x_2(t)\) from a filter of the form \(3Z + 3Z^{-1} +
+% Z^{-2}\). The first one has roots outside the unit circle while the roots of the
+% later one are inside the unit circle. Having the zeros outside the unit circle
+% means one of two things: if we choose as the region of convergence (ROC) the
+% inner circle, we have a system that is stable, but is anti-causal. On the other
+% hand, if we choose as the ROC the external region of the Z-plane the system
+% becomes causal, but at the cost of stability.

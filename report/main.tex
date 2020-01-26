@@ -1,0 +1,34 @@
+% Select here document class properties
+\documentclass[a4paper,twoside,onecolumn]{article}
+
+% Include preamble in a separate file
+% This is where you set packages and settings
+\input{preamble}
+
+\title{SPAA assignment 2}
+\author{Rui L. V. Oliveira}
+
+% Before beginning the document, do some custom stuff
+
+% Add here your biblatex files
+\addbibresource{references.bib}
+
+% Custom definitions for siunitx
+\DeclareSIUnit\baud{Bd} % Baud
+\DeclareSIUnit\sample{sa} % Baudv
+
+% Config listings
+\lstset{language=Matlab,basicstyle=\ttfamily,keywordstyle={\color{blue}}}
+
+\begin{document}
+
+% Write the document in contents.tex
+\maketitle
+\input{contents}
+
+% Display bibliography
+% \balance
+% \pagebreak
+\printbibliography
+
+\end{document}
