@@ -309,3 +309,13 @@ figure~\ref{fig:ex3res}.
     \end{subfigure}
     \caption{Results for the exercise 3.\label{fig:ex3res}}
 \end{figure}
+For the case of \(x_1\) we see an agreement with the analytical prediction, with
+an error floating around \SI{7}{\decibel}. The error jitters around this value,
+and it's interesting to see how little the error does vary with the clear
+jittering of the weight themselves. This gives strength to the hypothesis that the
+system has a very non-causal response and that this causal filter cannot actually
+do much to compensate. For \(x_2\) we see quite the opposite. Visually, one can't
+even see variation in the weights after the initial adjustment and still the error
+keeps dropping down until almost half-way. It's interesting to see that the noise
+floor is around \SI{-170}{\decibel}, \SI{20}{\decibel} lower than even the
+analytical predictions.
