@@ -5,10 +5,10 @@ clear all;
 %% configuration
 %%
 N = 60; % largest possible filter order
-% f = [1, 3, 3]; % v -> x impulse response (first case)
-f = [3, 3, 1]; % v -> x impulse response (second case)
+f = [1, 3, 3]; % v -> x impulse response (first case)
+% f = [3, 3, 1]; % v -> x impulse response (second case)
 g = [1, -2, 1]; % v -> d impulse response
-fname = "../results/results22_2.mat"; % adjust accordingly
+fname = "../results/results22_1.mat"; % adjust accordingly
 
 %% theoretical inner products
 %%
@@ -72,4 +72,4 @@ if 0
 end
 
 %% Save data
-save(fname, "W", "EDb", "N");
+% save(fname, "W", "EDb", "N");

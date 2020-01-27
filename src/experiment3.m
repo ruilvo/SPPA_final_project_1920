@@ -10,6 +10,7 @@
 % y is the output
 % e is the error
 
+clc;
 close all;
 clear all;
 
@@ -67,6 +68,8 @@ for i = 1:n
 end
 
 mu(end)
+format long
+W(:,end)
 
 %% Save data
-save(fname, "W", "errav", "ns", "n");
+% save(fname, "W", "errav", "ns", "n");

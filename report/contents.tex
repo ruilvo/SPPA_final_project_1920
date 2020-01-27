@@ -287,7 +287,7 @@ limitations of floating point arithmetic.
 % becomes causal, but at the cost of stability.
 
 \FloatBarrier
-\section{Exercise 2}
+\section{Exercise 3}
 
 In exercise 3, we are asked to use the NMLS algorithm to make an adaptive filter
 that works with the previous signals. For this, I sidestepped a bit from script.
@@ -318,4 +318,15 @@ do much to compensate. For \(x_2\) we see quite the opposite. Visually, one can'
 even see variation in the weights after the initial adjustment and still the error
 keeps dropping down until almost half-way. It's interesting to see that the noise
 floor is around \SI{-170}{\decibel}, \SI{20}{\decibel} lower than even the
-analytical predictions.
+analytical predictions. Finally, let's compare the final values of the filter
+coefficients in both cases, again the previous exercise. For the sake of
+simplicity, I show the 10 most important weights for each case. The results can be
+seen in table~\ref{tab:results2}. I purposely let the large number of significant
+digits in the case for \(x_2\) as it transmits the message of how similar these
+are. For \(x_1\) results are less equal, which is easy to understand given the
+large jitter of these results.
+\begin{table}
+    \centering
+    \input{table_ex3.tex}
+    \caption{Results for the exercise 3.\label{tab:results2}}
+\end{table}
