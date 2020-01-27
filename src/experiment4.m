@@ -9,8 +9,6 @@ close all;
 %% Configuration
 T = 10000;
 omega = 0.2*pi;
-mu = 0.01;
-n = 3;
 sigm = 0.01;
 
 %% Signals
@@ -27,45 +25,72 @@ x = x(1:end-1);
 tvec = tvec(1:end-1);
 d2 = d2(1:end-1);
 
+%% Simulation
+
+% Select here which one
+d = d1;
+
+for mu = [0.1 0.8]
+    for n = [1 2 3]
+        fname = sprintf("../results/results_ex4_d1_n%d_mu%.2f.mat",n,mu);
+
+        % This is for storing the results
+        W = zeros(T + 2, n); % Weights
+        xx = zeros(1, n); % Tapped delay line signals
+        e = zeros(T+1, 1); % Error
+        ys = zeros(1, T+1); % Computed signal
+
+        epsi = 1e-300; % Divison by zero protection
+
+        for t = 1:T+1
+            xx = [x(t) xx(1:n-1)]; % Tapped delay line signals
+
+            y = W(t, :) * xx'; % Estimate the signal
+            ys(t) = y;
+            e(t) = d(t) - y; % Compute the error
+
+            % Step into the next weights
+            W(t + 1, :) = W(t, :) + 2 * mu * xx * e(t) / (epsi + xx * xx');
+
+        end % for t
+
+        lambda = 0.95;
+        err = filter(1 - lambda, [1 -lambda], abs(e).^2);
+
+        save(fname, "W","err","n","mu","d","ys");
+    end
+end
+
 % Select here which one
 d = d2;
 
-%% Simulation
-% This is for storing the results
-W = zeros(T + 2, n); % Weights
-xx = zeros(1, n); % Tapped delay line signals
-e = zeros(T+1, 1); % Error
-ys = zeros(1, T+1); % Computed signal
+for mu = [0.1 0.8]
+    for n = [1 2 3]
+        fname = sprintf("../results/results_ex4_d2_n%d_mu%.2f.mat",n,mu);
 
-epsi = 1e-300; % Divison by zero protection
+        % This is for storing the results
+        W = zeros(T + 2, n); % Weights
+        xx = zeros(1, n); % Tapped delay line signals
+        e = zeros(T+1, 1); % Error
+        ys = zeros(1, T+1); % Computed signal
 
-for t = 1:T+1
-    xx = [x(t) xx(1:n-1)]; % Tapped delay line signals
-    
-    y = W(t, :) * xx'; % Estimate the signal
-    ys(t) = y;
-    e(t) = d(t) - y; % Compute the error
-    
-    % Step into the next weights
-    W(t + 1, :) = W(t, :) + 2 * mu * xx * e(t) / (epsi + xx * xx');
+        epsi = 1e-300; % Divison by zero protection
 
-end % for t
+        for t = 1:T+1
+            xx = [x(t) xx(1:n-1)]; % Tapped delay line signals
 
-lambda = 0.95;
-err = filter(1 - lambda, [1 -lambda], abs(e).^2);
+            y = W(t, :) * xx'; % Estimate the signal
+            ys(t) = y;
+            e(t) = d(t) - y; % Compute the error
 
-%% Plots
-figure(1);
-subplot(2,1,1);
-plot(0:T+1,abs(W),'Linewidth',2);
-title('Weights');
-grid on
-subplot(2,1,2);
-plot(0:T,10*log10(err),'Linewidth',2);
-title('Squared error');
-grid on
+            % Step into the next weights
+            W(t + 1, :) = W(t, :) + 2 * mu * xx * e(t) / (epsi + xx * xx');
 
-figure(2); hold on;
-plot(d);
-plot(ys);
-plot(ys-d);
+        end % for t
+
+        lambda = 0.95;
+        err = filter(1 - lambda, [1 -lambda], abs(e).^2);
+
+        save(fname, "W","err","n","mu","d","ys");
+    end
+end
