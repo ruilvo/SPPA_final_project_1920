@@ -18,7 +18,7 @@ three different filter orders (\(n\)), with three different adaptation steps
 
 The experiment is done by script {\tt experiment1.m} and supported by the function
     {\tt do\_nlms.m}. Furthermore, plotting is handled by the Python script {\tt
-        makeplots\_1.py}.
+    makeplots\_1.py}.
 
 There is a lot to unpack here, so let's get started. The first signal a sequence
 of random numbers that is filtered and to which is added some white noise
@@ -292,9 +292,10 @@ limitations of floating point arithmetic.
 In exercise 3, we are asked to use the NMLS algorithm to make an adaptive filter
 that works with the previous signals. For this, I sidestepped a bit from script.
 The number of iterations and the step were both too low to see the best converge
-possible. The same with the number of weights. I settled on two million
-iterations, with \(\mu=0.1\) and \(40\) weights. Results can be seen in
-figure~\ref{fig:ex3res}.
+possible. The same with the number of weights. I settled on two million iterations
+and \(40\) weights. For the iteration step I did something else: the script adapts
+the weights as iterations go along, as can be seen in line 47 of {\tt
+experiment3.m}. Results can be seen in figure~\ref{fig:ex3res}.
 \begin{figure}
     \centering
     \begin{subfigure}[t]{0.30\columnwidth}
@@ -330,3 +331,48 @@ large jitter of these results.
     \input{table_ex3.tex}
     \caption{Results for the exercise 3.\label{tab:results2}}
 \end{table}
+
+\section{Exercise 5}
+
+In exercise 5 we have a new challenge: we don't have a ``target'' signal. This
+presents a very realistic scenario: if we had the target signal, what would be the
+point of having an adaptive filter anyway? The challenge proposed to to make a
+decision-directed adaptive filter for PSK signals. This means that to compute the
+error we use the distance to the point in the PSK constellation we decided on
+during demodulation. With this scheme, the received signal should tend to a good
+PSK constellation. It's worth noting that without any further corrections, the
+rotation of the constellation is not guaranteed to be correct.
+Figure~\ref{fig:ex5_4psk} show the results for 4-PSK modulation using \(n=40\) and
+\(\mu=0.1\) and figure~\ref{fig:ex5_8psk} show the results for 8-PSK modulation
+using \(n=10\) and \(\mu=0.1\). It's interesting to see in
+figures~\ref{fig:ex5_4psk_const} and~\ref{fig:ex5_8psk_const} how the
+constellation does tend to the ``perfect'' one as the algorithm iterates. This is
+an interesting way to visualize what the error evolution says.
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{pdf/ex5_4psk_const.pdf}
+        \caption{Constellation evolution.\label{fig:ex5_4psk_const}}
+    \end{subfigure} \hspace{1cm}
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{pdf/ex5_8psk_res.pdf}
+        \caption{Weights and error evolution.\label{fig:ex5_4psk_res}}
+    \end{subfigure}
+    \caption{Results for 4-PSK on exercise 5.\label{fig:ex5_4psk}}
+\end{figure}
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{pdf/ex5_8psk_const.pdf}
+        \caption{Constellation evolution.\label{fig:ex5_8psk_const}}
+    \end{subfigure} \hspace{1cm}
+    \begin{subfigure}[t]{0.30\columnwidth}
+        \centering
+        \includegraphics[width=\columnwidth]{pdf/ex5_8psk_res.pdf}
+        \caption{Weights and error evolution.\label{fig:ex5_8psk_res}}
+    \end{subfigure}
+    \caption{Results for 8-PSK on exercise 5.\label{fig:ex5_8psk}}
+\end{figure}

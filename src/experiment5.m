@@ -5,30 +5,31 @@ close all
 
 %% configuration
 %
-n=40;                     % transversal filter order
+n=10;                     % transversal filter order
 T=30000;                  % number of samples
 f=[1,-1,2,-2,7,2,2,2,-1]; % channel impulse response
 sigma=0.01;               % standard deviation of the channel noise
 mu=0.1;                   % adaptation step size
-M = 4; % PSK order
+M = 8; % PSK order
+
+fname = "../results/ex5_1.mat";
 
 %% Generate signals
 data = randi([0 M-1],1,T);
 u = pskmod(data,M,pi/M);
-x=filter([1,-1,2,-2,7,2,2,2,-1],1,u)+sigma*randn(1,T); % received data
-%% 
+x=filter([1,-1,2,-2,7,2,2,2,-1],1,u)+ ...
+       sigma*(sqrt(2)*randn(1,T)+1i*sqrt(2)*randn(1,T)); % received data
+%%
 W=zeros(T+1,n+1);
 W(1,round(n/2))=1;
 xx=zeros(1,n+1);
 d=0*x;
-constout = 0*d;
 e=zeros(T,1);
 for t=1:T
   xx=[x(t) xx(1:n)]; % tapped delay line signals
   y=W(t,:)*xx';
-  constout(t) = y;
-  d(t) = pskdemod(y,M,pi/M);
-  e(t)= pskmod(d(t),M,pi/M)-y;
+  d(t) = y;
+  e(t)= pskmod(pskdemod(y,M,pi/M),M,pi/M)-y;
   W(t+1,:)=W(t,:)+2*mu*xx*e(t)/(1e-300+xx*xx');
 end
 
@@ -53,7 +54,7 @@ delay=i-n-1
 
 figure(1);
 subplot(2,1,1);
-plot(0:T,W,'k','Linewidth',2);
+plot(0:T,abs(W),'Linewidth',2);
 title('Weights');
 grid on
 subplot(2,1,2);
@@ -72,5 +73,7 @@ title('Cross-correlation (normalized phase)');
 grid on
 
 figure(3); hold on;
-scatter(real(constout(1:100)),imag(constout(1:100)));
-scatter(real(constout(end-100:end)),imag(constout(end-100:end)));
+scatter(real(d(1:100)),imag(d(1:100)));
+scatter(real(d(end-100:end)),imag(d(end-100:end)));
+
+save(fname,'W','xi',"d");

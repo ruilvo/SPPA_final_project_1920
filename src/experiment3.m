@@ -20,7 +20,6 @@ f = [1, 3, 3]; % v -> x impulse response
 % f = [3, 3, 1]; % v -> x impulse response, 2nd signal
 g = [1, -2, 1]; % v -> d impulse response
 n = 40; %
-mu = 0.1; %
 epsi = 1e-100;
 fname = "../results/results3_1.mat"; % adjust accordingly
 
@@ -67,7 +66,7 @@ for i = 1:n
     plot(W(i, :))
 end
 
-mu(end)
+us(end)
 format long
 W(:,end)
 
