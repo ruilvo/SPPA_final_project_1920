@@ -4717,6 +4717,17 @@ Simulation
 \end_inset
 
 
+\begin_inset Formula 
+\begin{equation}
+d_{2}(t)=A(t)\sin(\omega t),\,A(t)=\begin{cases}
++2 & t<5000\\
+-2 & t\geqslant5000
+\end{cases}
+\end{equation}
+
+\end_inset
+
+
 \end_layout
 
 \end_body
