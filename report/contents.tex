@@ -245,12 +245,10 @@ positive \(k\), what I do is delay the other signal instead.
 Table~\ref{tab:results21} shows both the analytical and simulated results, as well
 as the relative error for the simulated data.
 
-\begin{table}[b!]
-    \adjustbox{width=\columnwidth,keepaspectratio}{
+\begin{table}[b!] \adjustbox{width=\columnwidth,keepaspectratio}{
         \input{table_ex21.tex}
-    }
-    \caption{Results for the first part of exercise 2. \(n_1=1000000\)
-        and \(n_2=ns = 100000000\)\label{tab:results21}}
+    } \caption{Results for the first part of exercise 2. \(n_1=1000000\) and
+        \(n_2=ns = 100000000\)\label{tab:results21}}
 \end{table}
 
 The second part of the exercise asks us to solve the system of normal equations
@@ -343,9 +341,9 @@ In exercise 4, we are asked to create an adaptive filter whose input is:
 \end{equation}
 And the target signals are:
 \begin{align}
-    d_1 (t) & = x(t+1)   \\
+    d_1 (t) & = x(t+1)                                                \\
     d_2 (t) & = =A(t)\sin(\omega t),\;A(t)=\begin{cases}
-        +2 & t<5000         \\
+        +2 & t<5000          \\
         -2 & t\geqslant 5000
     \end{cases}
 \end{align}
@@ -429,8 +427,8 @@ amplitude we see the weights loose ``synchronization'' and then quickly pick up
 again on the signals. I also want to point out the figure~\ref{fig:ex4d1n3mu08}
 where we can see that the error barely changes but the weights keep evolving. This
 might come from the system to be overdetermined. Also, on
-figure~\ref{fig:ex4d2n3mu08} we can see that the adaptation on the second part
-is slightly worse than from the first half. Even on the amplitude plot one can see
+figure~\ref{fig:ex4d2n3mu08} we can see that the adaptation on the second part is
+slightly worse than from the first half. Even on the amplitude plot one can see
 that the filter overcompensates and there is a slight DC shift on the recovered
 signal, that stays below the original signal. I think that in this scenario
 \(\mu\) is to high that any variation of the weights would make the adaptation
