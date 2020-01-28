@@ -121,7 +121,7 @@ becomes more important in the other regions.
 
 The last signal is probably the most interesting one to analyse.
 Figure~\ref{fig:ex1vsig3} depicts the results for this exercise.
-\begin{figure}
+\begin{figure}[t!]
     \centering
     \begin{subfigure}[t]{0.32\columnwidth}
         \centering
@@ -245,7 +245,7 @@ positive \(k\), what I do is delay the other signal instead.
 Table~\ref{tab:results21} shows both the analytical and simulated results, as well
 as the relative error for the simulated data.
 
-\begin{table}
+\begin{table}[b!]
     \adjustbox{width=\columnwidth,keepaspectratio}{
         \input{table_ex21.tex}
     }
@@ -286,6 +286,7 @@ limitations of floating point arithmetic.
 % hand, if we choose as the ROC the external region of the Z-plane the system
 % becomes causal, but at the cost of stability.
 
+\FloatBarrier
 \section{Exercise 3}
 
 In exercise 3, we are asked to use the NMLS algorithm to make an adaptive filter
@@ -294,8 +295,24 @@ The number of iterations and the step were both too low to see the best converge
 possible. The same with the number of weights. I settled on two million iterations
 and \(40\) weights. For the iteration step I did something else: the script adapts
 the weights as iterations go along, as can be seen in line 47 of {\tt
-        experiment3.m}. Results can be seen in figure~\ref{fig:ex3res}.
-\begin{figure}
+experiment3.m}. Results can be seen in figure~\ref{fig:ex3res}. For the case of
+\(x_1\) we see an agreement with the analytical prediction, with an error floating
+around \SI{7}{\decibel}. The error jitters around this value, and it's interesting
+to see how little the error does vary with the clear jittering of the weight
+themselves. This gives strength to the hypothesis that the system has a very
+non-causal response and that this causal filter cannot actually do much to
+compensate. For \(x_2\) we see quite the opposite. Visually, one can't even see
+variation in the weights after the initial adjustment and still the error keeps
+dropping down until almost half-way. It's interesting to see that the noise floor
+is around \SI{-170}{\decibel}, \SI{20}{\decibel} lower than even the analytical
+predictions. Finally, let's compare the final values of the filter coefficients in
+both cases, again the previous exercise. For the sake of simplicity, I show the 10
+most important weights for each case. The results can be seen in
+table~\ref{tab:results2}. I purposely let the large number of significant digits
+in the case for \(x_2\) as it transmits the message of how similar these are. For
+\(x_1\) results are less equal, which is easy to understand given the large jitter
+of these results.
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.32\columnwidth}
         \centering
@@ -309,28 +326,15 @@ the weights as iterations go along, as can be seen in line 47 of {\tt
     \end{subfigure}
     \caption{Results for the exercise 3.\label{fig:ex3res}}
 \end{figure}
-For the case of \(x_1\) we see an agreement with the analytical prediction, with
-an error floating around \SI{7}{\decibel}. The error jitters around this value,
-and it's interesting to see how little the error does vary with the clear
-jittering of the weight themselves. This gives strength to the hypothesis that the
-system has a very non-causal response and that this causal filter cannot actually
-do much to compensate. For \(x_2\) we see quite the opposite. Visually, one can't
-even see variation in the weights after the initial adjustment and still the error
-keeps dropping down until almost half-way. It's interesting to see that the noise
-floor is around \SI{-170}{\decibel}, \SI{20}{\decibel} lower than even the
-analytical predictions. Finally, let's compare the final values of the filter
-coefficients in both cases, again the previous exercise. For the sake of
-simplicity, I show the 10 most important weights for each case. The results can be
-seen in table~\ref{tab:results2}. I purposely let the large number of significant
-digits in the case for \(x_2\) as it transmits the message of how similar these
-are. For \(x_1\) results are less equal, which is easy to understand given the
-large jitter of these results.
-\begin{table}
+\begin{table}[h!]
     \centering
-    \input{table_ex3.tex}
+    \scalebox{0.65}{
+        \input{table_ex3.tex}
+    }
     \caption{Results for the exercise 3.\label{tab:results2}}
 \end{table}
 
+\FloatBarrier
 \section{Exercise 4}
 
 In exercise 4, we are asked to create an adaptive filter whose input is:
@@ -348,7 +352,7 @@ And the target signals are:
 with \(\omega = 0.2\pi\) and \(\sigma = 0.01\). As per the assignment, I ran the
 tests for \(n=\{1,\ 2,\ 3\}\) and \(\mu=\{0.1,\ 0.8\}\). Results can be seen in
 figures~\ref{fig:ex4d1} and~\ref{fig:ex4d2}.
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.32\columnwidth}
         \centering
@@ -382,7 +386,7 @@ figures~\ref{fig:ex4d1} and~\ref{fig:ex4d2}.
     \end{subfigure}
     \caption{Results for exercise 4, for \(d_1\).\label{fig:ex4d1}}
 \end{figure}
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.32\columnwidth}
         \centering
@@ -436,6 +440,7 @@ using an appropriate adaptation step, and maybe even making this adaptation step
 dynamic, for example, reducing it when the system reaches a steady state, so a
 better solution can be searched for.
 
+\FloatBarrier
 \section{Exercise 5}
 
 In exercise 5 we have a new challenge: we don't have a ``target'' signal. This
@@ -452,7 +457,7 @@ using \(n=10\) and \(\mu=0.1\). It's interesting to see in
 figures~\ref{fig:ex5_4psk_const} and~\ref{fig:ex5_8psk_const} how the
 constellation does tend to the ``perfect'' one as the algorithm iterates. This is
 an interesting way to visualize what the error evolution says.
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.32\columnwidth}
         \centering
@@ -466,8 +471,7 @@ an interesting way to visualize what the error evolution says.
     \end{subfigure}
     \caption{Results for 4-PSK on exercise 5.\label{fig:ex5_4psk}}
 \end{figure}
-
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[t]{0.32\columnwidth}
         \centering
